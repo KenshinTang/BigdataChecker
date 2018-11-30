@@ -14,13 +14,14 @@ from flask import Flask, jsonify
 
 app = Flask(__name__)
 
-if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0')
 
-
-@app.route('/', methods=['POST'])
+@app.route('/', methods=['GET', 'POST'])
 def hello_word():
     json_data = {"code": "1112", "msg": "11111111"}
     res = jsonify(json_data)
     res.headers['Access-Control-Allow-Origin'] = '*'
     return res
+
+
+if __name__ == '__main__':
+    app.run(debug=True, host='0.0.0.0')
