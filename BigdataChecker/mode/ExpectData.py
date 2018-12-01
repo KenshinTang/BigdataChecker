@@ -35,6 +35,7 @@ class ExpectDataBuilder(object):
                                    "sp_id": "hctv_mobile", "system_name": "Android",
                                    "system_version": "samsung/hero2qltezc/hero2qltechn:8.0.0/R16NW/G9350ZCS3CRJ2:user/release-keys",
                                    "user_id": "gt_a4:08:ea:5b:49:1b"}
+                                   # , "test_Redundant_value": "1"}
 
     def getExpectData(self, api):
         return self.__data[api]

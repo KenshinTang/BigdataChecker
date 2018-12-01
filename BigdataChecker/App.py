@@ -12,6 +12,7 @@ last edited: 2018.11.30
 
 from flask import Flask, jsonify, request
 from BigdataChecker.mode.ExpectData import ExpectDataBuilder
+from BigdataChecker.Comparator import Comparator
 import json
 
 app = Flask(__name__)
@@ -28,10 +29,11 @@ def hello_word():
 @app.route('/', methods=['GET', 'POST'])
 def main():
     inputData = json.loads(request.data)
-    app.logger.debug(inputData['get_data'])
     expectData = ExpectDataBuilder().getExpectData(inputData['get_source'])
-    app.logger.debug(expectData)
-    return "main"
+
+    app.logger.debug('start compare %s', inputData['get_source'])
+    result = Comparator().compare(inputData['get_data'], expectData)
+    return result
 
 
 def buildExpectedResult():
@@ -39,6 +41,7 @@ def buildExpectedResult():
 
 
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0')
+    # app.run(debug=True, host='0.0.0.0')
+    app.run(debug=True)
 
 
