@@ -8,19 +8,21 @@ author: Kenshin
 last edited: 2018.11.30
 """
 
-from flask import jsonify, current_app
+from flask import current_app
+from BigdataChecker.mode.Result import Result
 import os
 
 
 class Comparator(object):
-    def compare(self, data1, data2):
+    @staticmethod
+    def compare(data1, data2):
         current_app.logger.debug("data1 = %s", data1)
         current_app.logger.debug("data2 = %s", data2)
-        result = self.Result()
+        result = Result()
 
         if not isinstance(data1, dict) or not isinstance(data2, dict):
-            result.code = -1
-            result.msg = '格式错误'
+            result.code = Result.CODE_INNER_ERR_FORMAT
+            result.msg = '系统错误, 输入数据格式有误.'
             return result.create()
         else:
             lackofkeys = []
@@ -34,31 +36,12 @@ class Comparator(object):
                     illegalvalues.append([k, v, data1[k]])
 
             if len(lackofkeys) > 0:
-                result.code = 1
+                result.code = Result.CODE_ERR_LACK_OF_KEY
                 result.msg = '缺少字段: %s' % lackofkeys
                 return result.create()
             elif len(illegalvalues) > 0:
-                result.code = 2
+                result.code = Result.CODE_ERR_ILLEGAL_VALUE
                 for value in illegalvalues:
                     result.msg += '字段:%s 期望值:%s 实际值:%s %s' % (value[0], value[1], value[2], os.linesep)
                 return result.create()
 
-    class Result(object):
-        code = 0
-        msg = ''
-        __data = {}
-
-        def __init__(self, code=0, msg=''):
-            self.code = code
-            self.msg = msg
-            self.__data = {'code': self.code, 'msg': self.msg}
-            super().__init__()
-
-        def create(self):
-            self.__data['code'] = self.code
-            self.__data['msg'] = self.msg
-            current_app.logger.debug('compare result = %s', self.__data)
-            current_app.logger.debug('')
-            r = jsonify(self.__data)
-            r.headers['Access-Control-Allow-Origin'] = '*'
-            return r

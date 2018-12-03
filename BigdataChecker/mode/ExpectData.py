@@ -1,16 +1,64 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
+"""
+预期结果构建, 数据结构如下(字段可嵌套):
+{接口名: {字段key: [字段value, 是否不可为空, 是否包含子字段]}}
+eg:
+{'n603_a_1': {'event_name': ['open_page', 1, 0] ,
+              'system_name': ['', 0, 0]}
+ 'n603_a_6': {'event_name': ['open_page', 1, 0] ,
+              'event_value': [{'asset_id': ('movie', 1, 0],
+                               'category_id': ['看点', 1, 0]}, 1, 1]}
+}
+
+author: Kenshin
+last edited: 2018.11.30
+"""
+
+from flask import current_app
+
 
 class ExpectDataBuilder(object):
-    __data = {}
+    __data = {'n603_a_1': {},  # 终端心跳上报
+              'n603_a_2': {},  # 播放行为上报
+              'n603_a_3': {},  # 错误上报
+              'n603_a_5': {},  # 终端开机上报
+              'n603_a_6': {},  # 用户行为上报
+              'n603_a_7': {},  # 性能日志上报
+              'n603_a_8': {}}  # 应用会话信息上报
 
-    def __init__(self):
-        super().__init__()
-        self._init()
+    def init(self):
+        self.__data['n603_a_1'] = {'user_id': ['', 1, 0],
+                                   'device_id': ['', 1, 0],
+                                   'mac': ['', 1, 0],
+                                   'client_type': ['', 1, 0],
+                                   'network_type': ['', 1, 0],
+                                   'apk_version': ['', 1, 0],
+                                   'system_name': ['', 1, 0],
+                                   'system_version': ['', 1, 0],
+                                   'region_code': ['', 0, 0],
+                                   'server_time': ['', 1, 0],
+                                   'page_sid': ['', 1, 0],
+                                   'play_sid': ['', 2, 0],
+                                   'page_id': ['', 1, 0],
+                                   'asset_id': ['', 2, 0],
+                                   'category_id': ['', 2, 0],
+                                   'video_id': ['', 2, 0],
+                                   'video_name': ['', 2, 0],
+                                   'video_type': ['', 2, 0],
+                                   'episode_id': ['', 2, 0],
+                                   'media_id': ['', 2, 0],
+                                   'playbill_start_time': ['', 2, 0],
+                                   'playbill_length': ['', 2, 0],
+                                   'playbill_name': ['', 2, 0],
+                                   'sp_id': ['', 1, 0],
+                                   'heartbeat_type': ['', 1, 0],
+                                   'latitude': ['', 2, 0],
+                                   'longitude': ['', 2, 0],
+                                   'platform_id': ['', 1, 0],
+                                   }
 
-    def _init(self):
-        self.__data['n603_a_1'] = {'event_name': 'open_page', 'event_source': 'p_index_vod'}
         self.__data['n603_a_6'] = {"event_name": "open_page", "event_source": "p_index_vod",
                                    "event_target": "p_index_channel", "event_time": "1543595417180",
                                    "event_value": {"video_name": "", "page_type": "p_index_channel",
@@ -37,5 +85,25 @@ class ExpectDataBuilder(object):
                                    "user_id": "gt_a4:08:ea:5b:49:1b"}
                                    # , "test_Redundant_value": "1"}
 
-    def getExpectData(self, api):
-        return self.__data[api]
+    def build(self, apiName):
+        if apiName == 'n603_a_1':
+            result = {}
+        elif apiName == 'n603_a_2':
+            result = {}
+        elif apiName == 'n603_a_3':
+            result = {}
+        elif apiName == 'n603_a_5':
+            result = {}
+        elif apiName == 'n603_a_6':
+            result = {}
+        elif apiName == 'n603_a_7':
+            result = {}
+        elif apiName == 'n603_a_8':
+            result = {}
+        else:
+            result = {}
+            current_app.logger.error('%s is not supported.' % apiName)
+        return result
+
+    def getExpectData(self, apiName):
+        return self.__data[apiName]

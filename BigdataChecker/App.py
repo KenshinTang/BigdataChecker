@@ -29,10 +29,11 @@ def hello_word():
 @app.route('/', methods=['GET', 'POST'])
 def main():
     inputData = json.loads(request.data)
-    expectData = ExpectDataBuilder().getExpectData(inputData['get_source'])
+    apiName = inputData['get_source']
+    expectData = ExpectDataBuilder().getExpectData(apiName)
 
-    app.logger.debug('start compare %s', inputData['get_source'])
-    result = Comparator().compare(inputData['get_data'], expectData)
+    app.logger.debug('start comparing %s', apiName)
+    result = Comparator.compare(inputData['get_data'], expectData)
     return result
 
 
