@@ -30,7 +30,7 @@ def hello_word():
 def main():
     inputData = json.loads(request.data)
     apiName = inputData['get_source']
-    expectData = ExpectDataBuilder().getExpectData(apiName)
+    expectData = ExpectDataBuilder.build(apiName)
 
     app.logger.debug('start comparing %s', apiName)
     result = Comparator.compare(inputData['get_data'], expectData)
@@ -43,6 +43,7 @@ def buildExpectedResult():
 
 if __name__ == '__main__':
     # app.run(debug=True, host='0.0.0.0')
+    ExpectDataBuilder.init()
     app.run(debug=True)
 
 
