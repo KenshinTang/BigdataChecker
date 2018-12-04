@@ -41,7 +41,7 @@ def main():
 def getConfig():
     form = ConfigForm()
     if form.validate_on_submit():
-        flash('Submit success. {}'.format(form.user_id.data))
+        flash('Submit success. {} {}'.format(form.api.data, form.user_id.data))
     return render_template('config.html', form=form)
 
 

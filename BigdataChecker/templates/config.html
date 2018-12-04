@@ -15,6 +15,7 @@
         <hr>
         <form action="" method="post" novalidate>
             {{ form.hidden_tag() }}
+            <p>{{ form.api.label }} : {{ form.api() }}</p>
             <p>
                 {{ form.user_id.label }} : {{ form.user_id(size=32) }}
                 {% for error in form.user_id.errors %}

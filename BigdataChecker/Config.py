@@ -27,5 +27,5 @@ class ConfigForm(FlaskForm):
         ('n36_a_8', 'n36_a_8')
     ]
     user_id = StringField('user_id', validators=[DataRequired()])
-    # api = SelectField('api', choices=apiList)
+    api = SelectField('api', choices=apiList)
     submit = SubmitField('Submit')
