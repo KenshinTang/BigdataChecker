@@ -12,6 +12,7 @@ last edited: 2018.11.30
 
 import os, re
 
+
 class AndroidSystemUtils(object):
     @staticmethod
     def getMac():
@@ -24,14 +25,16 @@ class AndroidSystemUtils(object):
     def getSystemVersion():
         return os.popen('adb shell getprop ro.build.version.release').read().strip()
 
+
 class IOSSystemUtils(object):
     @staticmethod
     def getMac():
-        return ''
+        return 'test-mac'
 
     @staticmethod
     def getSystemVersion():
         return ''
+
 
 class LinuxSystemUtils(object):
     @staticmethod

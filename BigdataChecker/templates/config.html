@@ -15,13 +15,84 @@
         <hr>
         <form action="" method="post" novalidate>
             {{ form.hidden_tag() }}
-            <p>{{ form.api.label }} : {{ form.api() }}</p>
-            <p>
-                {{ form.user_id.label }} : {{ form.user_id(size=32) }}
-                {% for error in form.user_id.errors %}
-                <span style="color: red;">[{{ error }}]</span>
-                {% endfor %}
-            </p>
+            <table>
+                <tr>
+                    <td>{{ form.api.label }} :</td>
+                    <td>{{ form.api() }}</td>
+                </tr>
+                <tr>
+                    <td colspan=2><hr></td>
+                </tr>
+                <tr>
+                    <td>{{ form.user_id.label }}<span style="color: red;">*</span> :</td>
+                    <td>{{ form.user_id() }}
+                        {% for error in form.user_id.errors %}
+                        <span style="color: red;">[{{ error }}]</span>
+                        {% endfor %}</td>
+                </tr>
+                <tr>
+                    <td>{{ form.device_id.label }}<span style="color: red;">*</span> :</td>
+                    <td>{{ form.device_id() }}
+                        {% for error in form.device_id.errors %}
+                        <span style="color: red;">[{{ error }}]</span>
+                        {% endfor %}</td>
+                </tr>
+                <tr>
+                    <td>{{ form.mac.label }}<span style="color: red;">*</span> :</td>
+                    <td>{{ form.mac() }}
+                        {% for error in form.mac.errors %}
+                        <span style="color: red;">[{{ error }}]</span>
+                        {% endfor %}</td>
+                </tr>
+                <tr>
+                    <td>{{ form.client_type.label }} :</td>
+                    <td>{{ form.client_type() }}</td>
+                </tr>
+                <tr>
+                    <td>{{ form.network_type.label }} :</td>
+                    <td>{{ form.network_type() }}</td>
+                </tr>
+                <tr>
+                    <td>{{ form.apk_version.label }}<span style="color: red;">*</span> :</td>
+                    <td>{{ form.apk_version() }}
+                        {% for error in form.apk_version.errors %}
+                        <span style="color: red;">[{{ error }}]</span>
+                        {% endfor %}</td>
+                </tr>
+                <tr>
+                    <td>{{ form.system_name.label }} :</td>
+                    <td>{{ form.system_name() }}</td>
+                </tr>
+                <tr>
+                    <td>{{ form.system_version.label }}<span style="color: red;">*</span> :</td>
+                    <td>{{ form.system_version() }}
+                        {% for error in form.system_version.errors %}
+                        <span style="color: red;">[{{ error }}]</span>
+                        {% endfor %}</td>
+                </tr>
+                <tr>
+                    <td>{{ form.region_code.label }} :</td>
+                    <td>{{ form.region_code() }}</td>
+                </tr>
+                <tr>
+                    <td>{{ form.server_time.label }} :</td>
+                    <td>{{ form.server_time() }}</td>
+                </tr>
+                <tr>
+                    <td>{{ form.sp_id.label }}<span style="color: red;">*</span> :</td>
+                    <td>{{ form.sp_id() }}
+                        {% for error in form.sp_id.errors %}
+                        <span style="color: red;">[{{ error }}]</span>
+                        {% endfor %}</td>
+                </tr>
+                <tr>
+                    <td>{{ form.platform_id.label }}<span style="color: red;">*</span> :</td>
+                    <td>{{ form.platform_id() }}
+                        {% for error in form.platform_id.errors %}
+                        <span style="color: red;">[{{ error }}]</span>
+                        {% endfor %}</td>
+                </tr>
+            </table>
             <p>{{ form.submit() }}</p>
         </form>
     </body>

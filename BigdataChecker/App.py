@@ -27,6 +27,7 @@ def hello_word():
     res.headers['Access-Control-Allow-Origin'] = '*'
     return res
 
+
 @app.route('/', methods=['POST'])
 def main():
     inputData = json.loads(request.data)
@@ -36,6 +37,7 @@ def main():
     app.logger.debug('start comparing %s', apiName)
     result = Comparator.compare(inputData['get_data'], expectData)
     return result
+
 
 @app.route('/config', methods=['GET', 'POST'])
 def getConfig():
