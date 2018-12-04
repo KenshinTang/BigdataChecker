@@ -1,0 +1,14 @@
+<html>
+    <head>
+        <title>大数据自动化</title>
+    </head>
+    <body>
+        <form action="" method="post" novalidate>
+            {{ form.hidden_tag() }}
+            <p>
+                {{ form.user_id.label }} : {{ form.user_id(size=32) }}
+            </p>
+            <p>{{ form.submit() }}</p>
+        </form>
+    </body>
+</html>

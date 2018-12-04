@@ -10,20 +10,14 @@ author: Kenshin
 last edited: 2018.11.30
 """
 
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, render_template
 from BigdataChecker.mode.ExpectData import ExpectDataBuilder
 from BigdataChecker.Comparator import Comparator
+from BigdataChecker.Config import ConfigForm
 import json
 
 app = Flask(__name__)
-
-
-@app.route('/test', methods=['GET', 'POST'])
-def hello_word():
-    json_data = {"code": "1112", "msg": "11111111"}
-    res = jsonify(json_data)
-    res.headers['Access-Control-Allow-Origin'] = '*'
-    return res
+app.config['SECRET_KEY'] = 'big-data-checker'
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -35,6 +29,11 @@ def main():
     app.logger.debug('start comparing %s', apiName)
     result = Comparator.compare(inputData['get_data'], expectData)
     return result
+
+@app.route('/config')
+def getConfig():
+    form = ConfigForm()
+    return render_template('config.html', form=form)
 
 
 def buildExpectedResult():

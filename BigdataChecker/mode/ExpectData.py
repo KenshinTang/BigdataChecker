@@ -3,7 +3,9 @@
 
 """
 预期结果构建, 数据结构如下(字段可嵌套):
-{接口名: {字段key: [字段value, 是否不可为空, 是否包含子字段]}}
+{接口名: {字段key: [字段value, 是否不可为空, 检查等级-0不检查-1弱检查-2强检查]}}
+是否不可为空 : 0可为空, 1不可为空, 2条件为空
+检查等级    : 0不检查, 1弱检查(只检查非空,格式等), 2强检查(检查值是否正确)
 eg:
 {'n603_a_1': {'event_name': ['open_page', 1, 0] ,
               'system_name': ['', 0, 0]}
@@ -17,6 +19,7 @@ last edited: 2018.11.30
 """
 
 from flask import current_app
+from BigdataChecker.utils.SystemUtils import AndroidSystemUtils
 
 
 class ExpectDataBuilder(object):
@@ -30,34 +33,34 @@ class ExpectDataBuilder(object):
 
     @classmethod
     def init(cls):
-        cls.__data['n603_a_1'] = {'user_id': ['', 1, 0],
-                                  'device_id': ['', 1, 0],
-                                  'mac': ['', 1, 0],
-                                  'client_type': ['', 1, 0],
-                                  'network_type': ['', 1, 0],
-                                  'apk_version': ['', 1, 0],
-                                  'system_name': ['', 1, 0],
-                                  'system_version': ['', 1, 0],
-                                  'region_code': ['', 0, 0],
-                                  'server_time': ['', 1, 0],
-                                  'page_sid': ['', 1, 0],
-                                  'play_sid': ['', 2, 0],
-                                  'page_id': ['', 1, 0],
-                                  'asset_id': ['', 2, 0],
-                                  'category_id': ['', 2, 0],
-                                  'video_id': ['', 2, 0],
-                                  'video_name': ['', 2, 0],
-                                  'video_type': ['', 2, 0],
-                                  'episode_id': ['', 2, 0],
-                                  'media_id': ['', 2, 0],
-                                  'playbill_start_time': ['', 2, 0],
-                                  'playbill_length': ['', 2, 0],
-                                  'playbill_name': ['', 2, 0],
-                                  'sp_id': ['', 1, 0],
-                                  'heartbeat_type': ['', 1, 0],
-                                  'latitude': ['', 2, 0],
-                                  'longitude': ['', 2, 0],
-                                  'platform_id': ['', 1, 0]
+        cls.__data['n603_a_1'] = {'user_id': ['', 1, 2],
+                                  'device_id': ['', 1, 1],
+                                  'mac': ['', 1, 2],
+                                  'client_type': ['', 1, 1],
+                                  'network_type': ['', 1, 1],
+                                  'apk_version': ['', 1, 1],
+                                  'system_name': ['', 1, 1],
+                                  'system_version': ['', 1, 1],
+                                  'region_code': ['', 0, 2],
+                                  'server_time': ['', 1, 1],
+                                  'page_sid': ['', 1, 2],
+                                  'play_sid': ['', 2, 2],
+                                  'page_id': ['', 1, 2],
+                                  'asset_id': ['', 2, 2],
+                                  'category_id': ['', 2, 2],
+                                  'video_id': ['', 2, 2],
+                                  'video_name': ['', 2, 2],
+                                  'video_type': ['', 2, 2],
+                                  'episode_id': ['', 2, 2],
+                                  'media_id': ['', 2, 2],
+                                  'playbill_start_time': ['', 2, 2],
+                                  'playbill_length': ['', 2, 2],
+                                  'playbill_name': ['', 2, 2],
+                                  'sp_id': ['', 1, 2],
+                                  'heartbeat_type': ['', 1, 2],
+                                  'latitude': ['', 2, 1],
+                                  'longitude': ['', 2, 1],
+                                  'platform_id': ['', 1, 1]
                                   }
 
     @classmethod
@@ -86,15 +89,12 @@ class ExpectDataBuilder(object):
     @classmethod
     def buildN603a1(cls):
         result = cls.__data['n603_a_1']
-        cls.setContent(result, 'user_id', 'value')
-        cls.setContent(result, 'device_id', 'value')
+        cls.__setContent(result, 'mac', AndroidSystemUtils.getMac())
+        cls.__setContent(result, 'system_version', AndroidSystemUtils.getSystemVersion())
         return result
 
     @classmethod
-    def setContent(cls, content, key, value):
-        if content[key][2] == 0:
-            content[key][0] = value
-        else:
-            # todo: support dict here.
-            print('support dict here')
+    def __setContent(cls, content, key, value):
+        content[key][0] = value
         return content
+
